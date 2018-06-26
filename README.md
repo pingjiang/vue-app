@@ -1,6 +1,6 @@
-# ido-client
+# vue app
 
-> ido app
+> vue app with vue-router, vuex, iview, vue-wait, axios, echarts, dayjs and many essential library integrations
 
 ## Build Setup
 
@@ -9,25 +9,24 @@
 npm install
 
 # serve with hot reload at localhost:8080
-npm run dev
+npm run serve
 
 # build for production with minification
 npm run build
 
 # build for production and view the bundle analyzer report
-npm run build --report
+npm run build -- --report
+
+# run lint
+npm run lint
+npm run lint -- --fix
 
 # run unit tests
-npm run unit
+npm run test:unit
 
 # run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+npm run test:e2e
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ## 开源库
 
