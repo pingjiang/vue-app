@@ -10,7 +10,7 @@
 
     <pre>
       <code>
-        {{ posts | json }}
+        {{ post | json }}
       </code>
     </pre>
   </div>
@@ -18,35 +18,41 @@
 
 <script>
 import { mapState } from 'vuex';
-import { actions, getApiData } from '../../../core/vuex-api'
+// import { actions, getApiData } from '../../../core/vuex-api'
+import { getPostById } from '../api';
 
 export default {
   filters: {
     json: v => JSON.stringify(v, null, '  '),
   },
+  computed: {
+    ...mapState(['post']),
+  },
+
   mounted() {
     this.fetchPosts();
   },
-  computed: {
-    ...mapState({
-      // posts: {
-      //   status: 'success', // can be 'loading' and 'error' depending on the request status
-      //   resp: {...}, // the resp obj from axios request
-      // }
-      posts: getApiData('posts'),
-    }),
-  },
+
   methods: {
     fetchPosts() {
-      this.$store.dispatch(actions.request, {
-        baseURL: '/api',
-        params: {
-          _page: 1,
-          _limit: 5,
-        },
-        method: 'GET',
-        url: 'posts',
-        keyPath: ['posts'],
+      this.$waitResource(getPostById(1), 'post');
+    },
+
+    $waitResource(req, key) {
+      this.$set(this.$store.state, key, {
+        status: 'loading',
+        data: null,
+        message: null,
+      });
+
+      const value = this.$store.state[key];
+
+      return req.then(res => {
+        value.data = res;
+        value.status = 'success';
+      }).catch(err => {
+        value.status = 'failure';
+        value.message = err.message;
       });
     },
   },
