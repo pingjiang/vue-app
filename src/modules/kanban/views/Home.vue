@@ -7,6 +7,12 @@
 
     <Button @click="$wait.start('test')">Test loading</Button>
     <Spin v-if="$wait.is('test')"></Spin>
+
+    <pre>
+      <code>
+        {{ posts | json }}
+      </code>
+    </pre>
   </div>
 </template>
 
@@ -15,6 +21,9 @@ import { mapState } from 'vuex';
 import { actions, getApiData } from '../../../core/vuex-api'
 
 export default {
+  filters: {
+    json: v => JSON.stringify(v, null, '  '),
+  },
   mounted() {
     this.fetchPosts();
   },
@@ -30,10 +39,14 @@ export default {
   methods: {
     fetchPosts() {
       this.$store.dispatch(actions.request, {
-        baseURL: 'https://jsonplaceholder.typicode.com',
+        baseURL: '/api',
+        params: {
+          _page: 1,
+          _limit: 5,
+        },
         method: 'GET',
         url: 'posts',
-        keyPath: ['post'],
+        keyPath: ['posts'],
       });
     },
   },

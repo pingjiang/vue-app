@@ -1,5 +1,5 @@
 
-export const loginRouter = {
+export const login = {
   path: '/login',
   name: 'login',
   meta: {
@@ -35,9 +35,9 @@ export const page500 = {
   component: () => import('./views/error-page/500'),
 };
 
-export default [
-  loginRouter,
+export default {
+  login,
   page404,
   page403,
   page500,
-];
+};
